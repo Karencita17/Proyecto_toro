@@ -4,7 +4,16 @@ from PIL import Image, ImageTk
 import random
 import string
 
-
+def guardar_lista_en_archivo(lista, archivo):
+        with open(archivo, 'a') as file:
+            mensaje = ""
+            for dato in range(len(lista)):
+                if dato != len(lista)-1:
+                    mensaje += str(lista[dato]) + ","
+                else:
+                    mensaje += str(lista[dato]) + "\n"
+            file.write(mensaje)
+                           
 def registro():
     ventana = tkinter.Tk() #Crear ventana
     ventana.title("Sky-Voyage") #Titulo
@@ -25,13 +34,8 @@ def registro():
     ventana.iconbitmap("Logos\Avion.ico")
 
 
-    def guardar_lista_en_archivo(persona):
-        with open("BD_Usuarios1.txt", 'a') as file:
-            for persona in range(0,7):
-                file.write(', '.join(persona))
-                           
+    
     def registro1():
-        
         genero = gender.get()
         nombre = name.get()
         apellido = last_name.get()
@@ -53,9 +57,8 @@ def registro():
         if acum == 3:
             codigo = nombre[0].upper() + '-'
             codigo += ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
-            global persona
-            persona = [genero, nombre, apellido, ident, nacionalidad, cel, correo, codigo]
-            guardar_lista_en_archivo(persona)
+            persona = [genero, nombre, apellido, ident, nacion, cel, email, codigo]
+            guardar_lista_en_archivo(persona,fr"BD_Usuarios1.txt")
         else:
             tkinter.Label(frame, text = "Por favor, verifique la información", fg = "red", bg = "white", font = ("Garamound",12)).place(relx = 0.5, rely = 0.95, anchor=tkinter.CENTER)
 
