@@ -31,6 +31,7 @@ def registro():
                 file.write(', '.join(persona))
                            
     def registro1():
+        
         genero = gender.get()
         nombre = name.get()
         apellido = last_name.get()
