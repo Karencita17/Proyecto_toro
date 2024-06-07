@@ -72,7 +72,7 @@ def datos():
             ctk.set_default_color_theme("blue")
 
             #Destino
-            tkinter.Label(ventana2, text = "Ida: ", fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.02, rely = 0.02)
+            tkinter.Label(ventana2, text = "Ida: ", fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.03, rely = 0.02)
             #Distancia para Cali
             if inicio == "Cali":
                 tkinter.Label(ventana2, text = inicio, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
@@ -81,8 +81,8 @@ def datos():
             #Distancia para Santa Marta
             elif inicio == "Santa Marta":
                 tkinter.Label(ventana2, text = inicio, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
-                tkinter.Label(ventana2, text = "a", fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.23, rely = 0.02)
-                tkinter.Label(ventana2, text = fin, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.26, rely = 0.02)
+                tkinter.Label(ventana2, text = "a", fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.22, rely = 0.02)
+                tkinter.Label(ventana2, text = fin, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.24, rely = 0.02)
             #Distancia para Medellin
             elif inicio == "Medellin":
                 tkinter.Label(ventana2, text = inicio, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
@@ -101,10 +101,14 @@ def datos():
             
             space = 0
             for k in range(len(vuelos_disponibles)):
-                space += 2
-                hola = tkinter.Label(ventana2, text = vuelos_disponibles[k], fg = "black", bg = "white", font = ("Berlin Sans FB",12))
-                hola.grid(row = 1, column = 1 +space)
-
+                tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 1, column = 0)
+                tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 2, column = 0)
+                tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 3, column = 0)
+                frame5 = tkinter.Frame(ventana2, width=85, height=30, bg = "white", highlightbackground="#0B99B9", highlightcolor="#0B99B9",highlightthickness=2)
+                frame5.grid(row=4,column=1 +space, padx=6)
+                fechas = tkinter.Label(ventana2, text = vuelos_disponibles[k], fg = "black", bg = "white", font = ("Berlin Sans FB",10))
+                fechas.grid(row=4,column=1 +space)
+                space += 1
 
 
     #Container principal
