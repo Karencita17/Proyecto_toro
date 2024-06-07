@@ -72,3 +72,4 @@ def check():
     verificar.place(relx=0.5,rely=0.85, anchor=tkinter.CENTER)
 
     ventana.mainloop()
+check()

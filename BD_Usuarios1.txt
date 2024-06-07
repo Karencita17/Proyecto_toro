@@ -1,2 +1,3 @@
 Femenino,Karen,Gomez,8799995794,Colombia,3053418679,karenperu@gmail.com,K-9NSGG5
 Femenino,Alejo,Sierra,1234567890,Veneco,3053416789,sierra@gmail.com,A-4HJW15
+Femenino,Karen,Lopez,1234567891,Peruana,3053418697,lopez@gmail.com,K-4T9M5Q

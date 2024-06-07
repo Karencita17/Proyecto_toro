@@ -2,7 +2,7 @@ import tkinter
 import customtkinter as ctk
 from PIL import Image, ImageTk
 #Importamos archivo
-import Vuelo
+# import Vuelo
 
 def datos():
     ventana = tkinter.Tk() #Crear ventana
@@ -28,26 +28,83 @@ def datos():
     ctk.set_default_color_theme("blue")
 
     def datos_buscar():
+        #Recolectamos información
         inicio = origen.get()
         fin = destino.get()
         dia = fecha.get()
+        vuelos_disponibles = []
         vuelos = []
         acum = 0
+        #Abrir archivo txt
         with open("BD_Vuelos.txt", "r") as archivo:
             usuario = archivo.read()
             usuario = usuario.split("\n")
             for i in range(len(usuario)):
-                vuelo = usuario[i].split(",")
+                vuelo = usuario[i].split(",") 
                 vuelo = [dato.strip().strip("'") for dato in vuelo]
                 vuelos.append(vuelo)
         for i in range(len(vuelos)):
+            #Verifica información
             if vuelos[i][7] == inicio:
                 if vuelos[i][8] == fin:
-                    pass
+                    acum += 1
+                    vuelos_disponibles.append(vuelos[i][1])
             else:
-                tkinter.Label(frame, text = "Vuelos no disponibles", bg = "White", font = ("Garamound",12)).place(relx=0.75,rely=0.45, anchor=tkinter.CENTER)
-                
+                tkinter.Label(frame, text = "Vuelos no disponibles", fg="red", bg = "White", font = ("Garamound",12)).place(relx=0.5,rely=0.79, anchor=tkinter.CENTER)
+        if acum >= 1:
+            ventana.destroy()
+            ventana2 = tkinter.Tk() #Crear ventana
+            ventana2.title("Sky-Voyage") #Titulo
+            ventana2.configure(bg = "white")
+            #Centrar la ventana tamaño pc
+            ventana2_width=1000
+            ventana2_height=650
+            ventana2.resizable(0,0)
+            screen_width=ventana2.winfo_screenwidth()
+            screen_height=ventana2.winfo_screenheight()
+            x=(screen_width/2)-(ventana2_width/2)
+            y=(screen_height/2)-(ventana2_height/2)
+            ventana2.geometry(f'{ventana2_width}x{ventana2_height}+{int(x)}+{int(y)}')
+            #Icono superior izquierdo
+            ventana2.iconbitmap("Logos\Avion.ico") 
+
+            #Tema predeterminado
+            ctk.set_default_color_theme("blue")
+
+            #Destino
+            tkinter.Label(ventana2, text = "Ida: ", fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.02, rely = 0.02)
+            #Distancia para Cali
+            if inicio == "Cali":
+                tkinter.Label(ventana2, text = inicio, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
+                tkinter.Label(ventana2, text = "a", fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.125, rely = 0.02)
+                tkinter.Label(ventana2, text = fin, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.15, rely = 0.02)
+            #Distancia para Santa Marta
+            elif inicio == "Santa Marta":
+                tkinter.Label(ventana2, text = inicio, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
+                tkinter.Label(ventana2, text = "a", fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.23, rely = 0.02)
+                tkinter.Label(ventana2, text = fin, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.26, rely = 0.02)
+            #Distancia para Medellin
+            elif inicio == "Medellin":
+                tkinter.Label(ventana2, text = inicio, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
+                tkinter.Label(ventana2, text = "a", fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.18, rely = 0.02)
+                tkinter.Label(ventana2, text = fin, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.21, rely = 0.02)
+            #Distancia para Bogota
+            elif inicio == "Bogota":
+                tkinter.Label(ventana2, text = inicio, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
+                tkinter.Label(ventana2, text = "a", fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.17, rely = 0.02)
+                tkinter.Label(ventana2, text = fin, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.2, rely = 0.02)
+            #Distancia para Cartagena
+            elif inicio == "Cartagena":
+                tkinter.Label(ventana2, text = inicio, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
+                tkinter.Label(ventana2, text = "a", fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.205, rely = 0.02)
+                tkinter.Label(ventana2, text = fin, fg = "black", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.24, rely = 0.02)
             
+            space = 0
+            for k in range(len(vuelos_disponibles)):
+                space += 2
+                hola = tkinter.Label(ventana2, text = vuelos_disponibles[k], fg = "black", bg = "white", font = ("Berlin Sans FB",12))
+                hola.grid(row = 1, column = 1 +space)
+
 
 
     #Container principal

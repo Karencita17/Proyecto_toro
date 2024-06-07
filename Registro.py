@@ -33,7 +33,6 @@ def registro():
     ventana.geometry(f'{ventana_width}x{ventana_height}+{int(x)}+{int(y)}')
     ventana.iconbitmap("Logos\Avion.ico")
 
-
     
     def registro1():
         genero = gender.get()
@@ -44,11 +43,13 @@ def registro():
         cel = telefono.get()
         email = correo.get()
         acum = 0
+        numeros_validos = ["301", "302", "304", "305", "315", "316", "317", "318", "320", "321"]
         if len(ident) == 10:
                 acum += 1
         if len(cel) == 10:
-            if cel[0] == "3":
-                acum += 1
+            for i in range(len(numeros_validos)):
+                if cel[0:3] == numeros_validos[i]:
+                    acum += 1
         for i in range(len(email)):
             if email[i] == "@":
                 acum += 1
@@ -56,7 +57,9 @@ def registro():
                 acum -= 1 
         if acum == 3:
             codigo = nombre[0].upper() + '-'
-            codigo += ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+            abc = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","Ñ","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+            for i in range(1,4):
+                 codigo += str(random.randint(1,9)) +random.choice(abc) 
             persona = [genero, nombre, apellido, ident, nacion, cel, email, codigo]
             guardar_lista_en_archivo(persona,fr"BD_Usuarios1.txt")
         else:
