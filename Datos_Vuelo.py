@@ -33,9 +33,12 @@ def datos():
         destino.delete(0, tkinter.END)
         fecha.delete(0, tkinter.END)
 
+    #Pedir infromación completa
+    def mensaje_error():
+        messagebox.showinfo(message="Por favor, complete los campos", title="Error")
+
     def datos_buscar():
         #Recolectamos información
-        people = int(cant_personas.get())
         inicio = origen.get()
         fin = destino.get()
         dia = fecha.get()
@@ -44,9 +47,13 @@ def datos():
         vuelos = []
         acum = 0
         acum1 = 0
-        if dia == None:
-            messagebox.showinfo(message="Por favor, complete los campos", title="Error")
-            
+        #Se evalua si los campos se encuentran vacios
+        try:
+            people = int(cant_personas.get()) #Verifica que sea entero
+            if inicio == "" or fin == "" or dia == "": #Si los campos estan vacios se genera un error
+                raise ValueError
+        except ValueError:
+            mensaje_error()
         else:
             #Abrir archivo txt
             with open("BD_Vuelos.txt", "r") as archivo:
@@ -56,19 +63,24 @@ def datos():
                     vuelo = usuario[i].split(",") 
                     vuelo = [dato.strip().strip("'") for dato in vuelo]
                     vuelos.append(vuelo)
+            #Si los datos son negativos genera error
             if people <= 0:
                 messagebox.showinfo(message="Cantidad de personas incorrecta", title="Error")
                 delete_casillas()
             else:
+                #Recorre BD_Vuelos.txt
                 for i in range(len(vuelos)):
-                    #Verifica información
+                    #Verifica información de origen y destino
                     if vuelos[i][7] == inicio:
                         if vuelos[i][8] == fin:
+                            #Si es correcta suma acum, agrega fechas y precios
                             acum += 1
                             fechas_vuelos.append(vuelos[i][1])
                             precios_vuelos.append(vuelos[i][4:7])
+                    #Si los vuelos no se encuentran genra error
                     else:
                         tkinter.Label(frame, text = "Vuelos no disponibles", fg="red", bg = "White", font = ("Garamound",12)).place(relx=0.5,rely=0.79, anchor=tkinter.CENTER)
+                #Si se encuentran vuelos en la BD entra
                 if acum >= 1:
                     ventana.destroy()
                     ventana2 = tkinter.Tk() #Crear ventana
