@@ -44,12 +44,12 @@ def datos():
         dia = fecha.get()
         fechas_vuelos = []
         precios_vuelos = []
+        precios_vuelos1 = []
+        hora_vuelos = []
         vuelos = []
         acum = 0
-        acum1 = 0
         #Se evalua si los campos se encuentran vacios
         try:
-            people = int(cant_personas.get()) #Verifica que sea entero
             if inicio == "" or fin == "" or dia == "": #Si los campos estan vacios se genera un error
                 raise ValueError
         except ValueError:
@@ -64,12 +64,19 @@ def datos():
                     vuelo = [dato.strip().strip("'") for dato in vuelo]
                     vuelos.append(vuelo)
             #Si los datos son negativos genera error
-            if people <= 0:
+            try:
+                people = int(cant_personas.get()) #Verifica que sea entero
+                if people <= 0:
+                    raise ValueError
+            except:
                 messagebox.showinfo(message="Cantidad de personas incorrecta", title="Error")
-                delete_casillas()
             else:
                 #Recorre BD_Vuelos.txt
                 for i in range(len(vuelos)):
+                    #Verifica fecha, origen y destino para mostrar unicamente los datos del usuario
+                    if vuelos[i][1] == dia and vuelos[i][7] == inicio and vuelos[i][8] == fin:
+                        hora_vuelos.append(vuelos[i][2:4])
+                        precios_vuelos1.append(vuelos[i][4:7])
                     #Verifica información de origen y destino
                     if vuelos[i][7] == inicio:
                         if vuelos[i][8] == fin:
@@ -77,7 +84,7 @@ def datos():
                             acum += 1
                             fechas_vuelos.append(vuelos[i][1])
                             precios_vuelos.append(vuelos[i][4:7])
-                    #Si los vuelos no se encuentran genra error
+                    #Si los vuelos no se encuentran genera error
                     else:
                         tkinter.Label(frame, text = "Vuelos no disponibles", fg="red", bg = "White", font = ("Garamound",12)).place(relx=0.5,rely=0.79, anchor=tkinter.CENTER)
                 #Si se encuentran vuelos en la BD entra
@@ -102,61 +109,120 @@ def datos():
                     ctk.set_default_color_theme("blue")
 
                     #Destino
-                    tkinter.Label(ventana2, text = "Ida: ", fg = "#0B99B9", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.03, rely = 0.02)
+                    tkinter.Label(ventana2, text = "Ida: ", fg = "#0B99B9", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.03, rely = 0.03)
                     #Distancia para Cali
                     if inicio == "Cali":
-                        tkinter.Label(ventana2, text = inicio, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
-                        tkinter.Label(ventana2, text = "a", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.125, rely = 0.02)
-                        tkinter.Label(ventana2, text = fin, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.15, rely = 0.02)
+                        tkinter.Label(ventana2, text = inicio, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.03)
+                        tkinter.Label(ventana2, text = "a", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.125, rely = 0.03)
+                        tkinter.Label(ventana2, text = fin, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.15, rely = 0.03)
                     #Distancia para Santa Marta
                     elif inicio == "Santa Marta":
-                        tkinter.Label(ventana2, text = inicio, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
-                        tkinter.Label(ventana2, text = "a", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.22, rely = 0.02)
-                        tkinter.Label(ventana2, text = fin, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.24, rely = 0.02)
+                        tkinter.Label(ventana2, text = inicio, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.03)
+                        tkinter.Label(ventana2, text = "a", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.22, rely = 0.03)
+                        tkinter.Label(ventana2, text = fin, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.24, rely = 0.03)
                     #Distancia para Medellin
                     elif inicio == "Medellin":
-                        tkinter.Label(ventana2, text = inicio, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
-                        tkinter.Label(ventana2, text = "a", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.175, rely = 0.02)
-                        tkinter.Label(ventana2, text = fin, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.2, rely = 0.02)
+                        tkinter.Label(ventana2, text = inicio, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.03)
+                        tkinter.Label(ventana2, text = "a", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.175, rely = 0.03)
+                        tkinter.Label(ventana2, text = fin, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.2, rely = 0.03)
                     #Distancia para Bogota
                     elif inicio == "Bogota":
-                        tkinter.Label(ventana2, text = inicio, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
-                        tkinter.Label(ventana2, text = "a", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.17, rely = 0.02)
-                        tkinter.Label(ventana2, text = fin, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.2, rely = 0.02)
+                        tkinter.Label(ventana2, text = inicio, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.03)
+                        tkinter.Label(ventana2, text = "a", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.17, rely = 0.03)
+                        tkinter.Label(ventana2, text = fin, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.2, rely = 0.03)
                     #Distancia para Cartagena
                     elif inicio == "Cartagena":
-                        tkinter.Label(ventana2, text = inicio, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.02)
-                        tkinter.Label(ventana2, text = "a", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.205, rely = 0.02)
-                        tkinter.Label(ventana2, text = fin, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.23, rely = 0.02)
+                        tkinter.Label(ventana2, text = inicio, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.08, rely = 0.03)
+                        tkinter.Label(ventana2, text = "a", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.205, rely = 0.03)
+                        tkinter.Label(ventana2, text = fin, bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.23, rely = 0.03)
 
                     #Añadir fechas y precios
                     space = 0
                     for k in range(len(fechas_vuelos)):
-                        for h in range(len(precios_vuelos)): 
-                        #Muestra automaticamente las fechas de los vuelos
-                            tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 1, column = 0)
-                            tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 2, column = 0)
-                            tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 3, column = 0)
-                            #Container de las fechas y precios
-                            frame5 = tkinter.Frame(ventana2, width=85, height=30, bg = "white", highlightbackground="#0B99B9", highlightcolor="#0B99B9",highlightthickness=2)
-                            frame5.grid(row=4,column=1 +space, padx=4)
-                            #Fechas-------Se imprimen todas en posicion K
-                            fechas = tkinter.Label(frame5, text = fechas_vuelos[k], fg = "black", bg = "white", font = ("Berlin Sans FB",10))
-                            fechas.grid(row=4,column=1 +space)
-                            #Precios----Se imprimen todas de posicion cero
-                            precio = tkinter.Label(frame5, text = "COP. " +precios_vuelos[h][0], fg = "black", bg = "white", font = ("Berlin Sans FB",10))
-                            precio.grid(row=5,column=1 +space)
-                            #Permite separar las fechas
-                            space += 1
+                                #Muestra automaticamente todas las fechas de los vuelos
+                                tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 1, column = 0)
+                                tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 2, column = 0)
+                                tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 3, column = 0)
+                                tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 4, column = 0)
+                                frame5 = tkinter.Frame(ventana2, highlightbackground = "#0B99B9", highlightcolor = "#0B99B9", highlightthickness = 2)
+                                frame5.grid(row=5,column=1 +space, padx=4)
+                                #Fechas-------Se imprimen todas en posicion K
+                                fechas = tkinter.Label(frame5, text = fechas_vuelos[k], width = 10, bg = "white", font = ("Berlin Sans FB",10))
+                                fechas.grid(row=5,column=1 +space)
+                                #Precios------Se imprimen unicamente posicion cero
+                                prices = tkinter.Label(frame5, text = "COP. " +precios_vuelos[k][0], width = 10, bg = "white", font = ("Berlin Sans FB",10))
+                                prices.grid(row=6,column=1 +space)
+                                space += 1
                     #Texto Ordenar por...
-                    tkinter.Label(ventana2, text = "Ordenar por: ", bg = "white", font = ("Berlin Sans FB",17)).place(relx = 0.02, rely = 0.2)
+                    tkinter.Label(ventana2, text = "Ordenar por: ", bg = "white", font = ("Berlin Sans FB",17)).place(relx = 0.04, rely = 0.27)
                     #Filtrar por mejor precio
-                    best_price = ctk.CTkButton(ventana2, text = "Mejor precio", fg_color = "#0B99B9", font = ("Garamond",20), height = 38, width = 130)
-                    best_price.place(relx=0.24,rely=0.23, anchor=tkinter.CENTER)
+                    best_price = ctk.CTkButton(ventana2, text = "Mejor precio", width = 60, height = 40, font = ("Berlin Sans FB",20))
+                    best_price.place(relx=0.24,rely=0.29, anchor=tkinter.CENTER)
                     #Filtrar por vuelos directos
-                    v_direct = ctk.CTkButton(ventana2, text = "Vuelos directos", fg_color = "#0B99B9", font = ("Garamond",20), height = 38, width = 130)
-                    v_direct.place(relx=0.4,rely=0.23, anchor=tkinter.CENTER)
+                    v_direct = ctk.CTkButton(ventana2, text = "Vuelos directos", width = 60, height = 40, font = ("Berlin Sans FB",20))
+                    v_direct.place(relx=0.38,rely=0.29, anchor=tkinter.CENTER)
 
+                    space = 0
+                    for t in range(len(hora_vuelos)):
+                        #Muestra automaticamente las horas, origen, destino y precio de los vuelos del usuario
+                        tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 5, column = 0)
+                        tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 6, column = 0)
+                        tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 7, column = 0)
+                        tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 8, column = 0)
+                        tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 9, column = 0)
+                        tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 10, column = 0)
+                        #Origen--------Se imprimen en bucle
+                        ida = tkinter.Label(ventana2, text = inicio.upper(), width = 9, bg = "white", font = ("Berlin Sans FB",12))
+                        ida.grid(row=12 +space,column=2, pady= 17)
+                        #Hora de salida---------Se imprimen en bucle
+                        first_hora = tkinter.Label(ventana2, text = "(" +hora_vuelos[t][0] +")", width = 9, bg = "white", font = ("Berlin Sans FB",12))
+                        first_hora.grid(row=12 +space,column=3, pady= 17)
+                        #Linea
+                        linea = tkinter.Label(ventana2, text = "-----------------------------------------------", width = 9, bg = "white", font = ("Berlin Sans FB",12))
+                        linea.grid(row=12 +space,column=4, pady= 17)
+                        #Destino---------Se imprimen en bucle
+                        llegada = tkinter.Label(ventana2, text = fin.upper(), width = 9, bg = "white", font = ("Berlin Sans FB",12))
+                        llegada.grid(row=12 +space,column=5, pady= 17)
+                        #Hora de llegada-------Se imprimen en bucle
+                        second_hora = tkinter.Label(ventana2, text = "(" +hora_vuelos[t][1] +")", width = 9, bg = "white", font = ("Berlin Sans FB",12))
+                        second_hora.grid(row=12 +space,column=6, pady= 17,)
+                        #Desde texto
+                        desde = tkinter.Label(ventana2, text = "Desde:  ", width = 9, bg = "white", font = ("Berlin Sans FB",12))
+                        desde.grid(row=12 +space,column=7, pady= 17)
+                        #Precio minimo----------Se imprimen en bucle
+                        price_min = tkinter.Label(ventana2, text = "COP. " +precios_vuelos1[t][0], width = 10, bg = "white", font = ("Berlin Sans FB",12))
+                        price_min.grid(row=12 +space,column=8, pady= 17)
+                        #Boton seleccionar
+                        seleccionar = ctk.CTkButton(ventana2, text = "Seleccionar", width = 20, font = ("Berlin Sans FB",16))
+                        seleccionar.grid(row=12 +space,column=10, pady= 17)
+                        space += 1
+
+                        
+        def servicios():
+            ventana3 = tkinter.Tk() #Crear ventana
+            ventana3.title("Sky-Voyage") #Titulo
+            ventana3.configure(bg = "white")
+            #Centrar la ventana tamaño pc
+            ventana3_width=1000
+            ventana3_height=650
+            ventana3.resizable(0,0)
+            screen_width=ventana3.winfo_screenwidth()
+            screen_height=ventana3.winfo_screenheight()
+            x=(screen_width/2)-(ventana3_width/2)
+            y=(screen_height/2)-(ventana3_height/2)
+            ventana3.geometry(f'{ventana3_width}x{ventana3_height}+{int(x)}+{int(y)}')
+            #Icono superior izquierdo
+            ventana3.iconbitmap("Logos\Avion.ico")
+
+            #Tema predeterminado
+            ctk.set_default_color_theme("blue")
+
+            frame7 = tkinter.Frame(ventana3, width = 300, bg = "white", height = 200, highlightbackground = "#0B99B9", highlightcolor = "#0B99B9", highlightthickness = 2)
+            frame7.place(relx = 0.1, rely = 0.1)
+
+            tkinter.Label(frame7, text = "Aluminio",bg = "white", fg = "black",font = ("Berlin Sans FB",16)).place(relx = 0.35, rely = 0.08)
+
+            tkinter.Label(frame7, text = "Aluminio",bg = "white", fg = "black",font = ("Berlin Sans FB",16)).place(relx = 0.35, rely = 0.08)
 
 
 
