@@ -2,6 +2,8 @@ import tkinter
 import customtkinter as ctk
 from PIL import Image, ImageTk
 from tkinter import messagebox
+import Asientos
+import Desicion
 
 def datos():
     ventana = tkinter.Tk() #Crear ventana
@@ -26,17 +28,6 @@ def datos():
     #Tema predeterminado
     ctk.set_default_color_theme("blue")
 
-    #Vaciar casillas
-    def delete_casillas():
-        cant_personas.delete(0, tkinter.END)
-        origen.delete(0, tkinter.END)
-        destino.delete(0, tkinter.END)
-        fecha.delete(0, tkinter.END)
-
-    #Pedir infromación completa
-    def mensaje_error():
-        messagebox.showinfo(message="Por favor, complete los campos", title="Error")
-
     def datos_buscar():
         #Recolectamos información
         inicio = origen.get()
@@ -53,7 +44,8 @@ def datos():
             if inicio == "" or fin == "" or dia == "": #Si los campos estan vacios se genera un error
                 raise ValueError
         except ValueError:
-            mensaje_error()
+            #Mensaje de error, se pide la informaación completa
+            messagebox.showinfo(message="Por favor, complete los campos", title="Error")
         else:
             #Abrir archivo txt
             with open("BD_Vuelos.txt", "r") as archivo:
@@ -108,96 +100,6 @@ def datos():
                     #Tema predeterminado
                     ctk.set_default_color_theme("blue")
 
-                    #Llamar archivo de servicios
-                    def paquetes():
-                        ida1 = ida.cget("text")
-                        first_hora1 = first_hora.cget("text")
-                        desde1 = desde.cget("text")
-                        llegada1 = llegada.cget("text")
-                        second_hora1 = second_hora.cget("text")
-                        price_min1 = price_min.cget("text")
-                        print(ida1, first_hora1, desde1, llegada1, second_hora1, price_min1)
-                        ventana2.destroy()
-                        ventana = tkinter.Tk() #Crear ventana
-                        ventana.title("Sky-Voyage") #Titulo
-                        ventana.configure(bg = "white")
-                        #Imagen de fondo
-                        fondo = ctk.CTkImage(Image.open(fr"Logos\fondo.png"), size=(1535, 795))
-                        text = ctk.CTkLabel(master = ventana, image = fondo, text = "")
-                        text.place(relx=0.5,rely=0.5, anchor=tkinter.CENTER)
-                        #Centrar la ventana tamaño pc
-                        ventana_width=1000
-                        ventana_height=650
-                        ventana.resizable(0,0)
-                        screen_width=ventana.winfo_screenwidth()
-                        screen_height=ventana.winfo_screenheight()
-                        x=(screen_width/2)-(ventana_width/2)
-                        y=(screen_height/2)-(ventana_height/2)
-                        ventana.geometry(f'{ventana_width}x{ventana_height}+{int(x)}+{int(y)}')
-                        #Icono superior izquierdo
-                        ventana.iconbitmap("Logos\Avion.ico")
-
-                        #Tema predeterminado
-                        ctk.set_default_color_theme("blue")
-
-                        frame = tkinter.Frame(ventana, bg = "white", width = 600, height = 50, highlightbackground = "#0B99B9", highlightcolor = "#0B99B9", highlightthickness = 3)
-                        frame.place(relx = 0.2, rely = 0.03)
-
-                        tkinter.Label(ventana, bg = "white", text = "Nuestros Servicios", font = ("Berlin Sans FB",23), fg = "#00576C").place(relx=0.5, rely=0.07, anchor=tkinter.CENTER)
-
-                        frame1 = tkinter.Frame(ventana, bg = "white", width = 300, height = 500, highlightbackground = "#0B99B9", highlightcolor = "#0B99B9", highlightthickness = 3)
-                        frame1.place(relx = 0.02, rely = 0.16)
-
-                        #Paquete Aluminio
-                        tkinter.Label(frame1, text = "Aluminio", font = ("Berlin Sans FB",20), bg = "white").place(relx=0.32, rely=0.03)
-
-                        tkinter.Label(frame1, text = " 1 artículo personal (bolso) \n (Debe caber debajo del asiento)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.12, rely=0.13)
-                        tkinter.Label(frame1, text = " 1 equipaje de mano (10 kg) \n (Desde $195.100 COP)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.16, rely=0.25)
-                        tkinter.Label(frame1, text = " Equipaje de bodega (23 kg) \n (Desde $175.600 COP)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.17, rely=0.37)
-                        tkinter.Label(frame1, text = " Asiento Economy \n (Aleatoria-clasificado Aluminio)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.12, rely=0.49)
-                        tkinter.Label(frame1, text = " Cambios de vuelo \n (No es permitido)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.27, rely=0.61)
-                        tkinter.Label(frame1, text = " Reembolso \n (No es permitido)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.27, rely=0.74)
-
-                        seleccionar1 = ctk.CTkButton(frame1, text = "Seleccionar", height = 35, font = ("Berlin Sans FB",17))
-                        seleccionar1.place(relx = 0.26, rely = 0.88)
-
-
-                        frame2 = tkinter.Frame(ventana, bg = "white", width = 300, height = 500, highlightbackground = "#0B99B9", highlightcolor = "#0B99B9", highlightthickness = 3)
-                        frame2.place(relx = 0.35, rely = 0.16)
-
-                        #Paquete Diamante
-                        tkinter.Label(frame2, text = "Diamante", font = ("Berlin Sans FB",20), bg = "white").place(relx=0.31, rely=0.03)
-
-                        tkinter.Label(frame2, text = " 1 artículo personal (bolso) \n (Debe caber debajo del asiento)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.13, rely=0.13)
-                        tkinter.Label(frame2, text = " 1 equipaje de bodega (23 kg) (Debe \n caber en el compartimiento superior)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.08, rely=0.25)
-                        tkinter.Label(frame2, text = " 1 equipaje de mano (10 kg) \n (Entrega el equipaje en el counter)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.11, rely=0.37)
-                        tkinter.Label(frame2, text = " Asiento Economy (Filas específicas \n disponibles de manera aleatoria)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.1, rely=0.49)
-                        tkinter.Label(frame2, text = " Cambios de vuelo \n (No es permitido)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.27, rely=0.61)
-                        tkinter.Label(frame2, text = " Reembolso \n (No es permitido)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.27, rely=0.74)
-
-                        seleccionar2 = ctk.CTkButton(frame2, text = "Seleccionar", height = 35, font = ("Berlin Sans FB",17))
-                        seleccionar2.place(relx = 0.26, rely = 0.88)
-                        
-
-                        frame3 = tkinter.Frame(ventana, bg = "white", width = 300, height = 500, highlightbackground = "#0B99B9", highlightcolor = "#0B99B9", highlightthickness = 3)
-                        frame3.place(relx = 0.68, rely = 0.16)
-
-                        #Paquete Premium
-                        tkinter.Label(frame3, text = "Premium", font = ("Berlin Sans FB",20), bg = "white").place(relx=0.33, rely=0.03)
-
-                        tkinter.Label(frame3, text = " 1 artículo personal (bolso) \n (Debe caber debajo del asiento)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.13, rely=0.13)
-                        tkinter.Label(frame3, text = " 1 equipaje de mano (10 kg) (Debe \n caber en el compartimiento superior)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.09, rely=0.25)
-                        tkinter.Label(frame3, text = " 1 equipaje de bodega (23 kg) \n (Entrega el equipaje en el counter)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.11, rely=0.37)
-                        tkinter.Label(frame3, text = " Asiento Plus (Sujeto \n a disponibilidad-clasificado Premium)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.09, rely=0.49)
-                        tkinter.Label(frame3, text = " Cambios de vuelo \n (Sin cargo por cambio, antes del vuelo)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.07, rely=0.61)
-                        tkinter.Label(frame3, text = " Reembolso \n (No es permitido)", font = ("Berlin Sans FB",12), bg = "white").place(relx=0.27, rely=0.74)
-
-                        seleccionar3 = ctk.CTkButton(frame3, text = "Seleccionar", height = 35, font = ("Berlin Sans FB",17))
-                        seleccionar3.place(relx = 0.27, rely = 0.88)
-
-                        ventana.mainloop()
-
-
                     #Destino
                     tkinter.Label(ventana2, text = "Ida: ", fg = "#0B99B9", bg = "white", font = ("Berlin Sans FB",19)).place(relx = 0.03, rely = 0.03)
                     #Distancia para Cali
@@ -234,6 +136,7 @@ def datos():
                                 tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 2, column = 0)
                                 tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 3, column = 0)
                                 tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 4, column = 0)
+                                #Container de fechas--------Se imprimen en bucle
                                 frame5 = tkinter.Frame(ventana2, highlightbackground = "#0B99B9", highlightcolor = "#0B99B9", highlightthickness = 2)
                                 frame5.grid(row=5,column=1 +space, padx=4)
                                 #Fechas-------Se imprimen todas en posicion K
@@ -248,7 +151,22 @@ def datos():
                     best_price = ctk.CTkButton(ventana2, text = "Mejor precio", width = 60, height = 40, font = ("Berlin Sans FB",20))
                     best_price.place(relx=0.24,rely=0.29, anchor=tkinter.CENTER)
 
+                    def registrar_or_check(x):
+                        with open(fr"BD_Usuarios1.txt", 'a') as file:
+                            mensaje = "\n"
+                            for dato in range(len(x)):
+                                if dato != len(x):
+                                    mensaje += str(x[dato]) + ","
+                            file.write(mensaje)
+                        ventana2.destroy()
+                        Desicion.registrado_check()
+
+                    def devolverse():
+                        ventana2.destroy()
+                        datos()
+
                     space = 0
+                    datos1 = []
                     for t in range(len(hora_vuelos)):
                         #Muestra automaticamente las horas, origen, destino y precio de los vuelos del usuario
                         tkinter.Label(ventana2, text = "Nada", fg = "white", bg = "white").grid(row = 5, column = 0)
@@ -279,10 +197,16 @@ def datos():
                         price_min = tkinter.Label(ventana2, text = "COP. " +precios_vuelos1[t][0], width = 10, bg = "white", font = ("Berlin Sans FB",12))
                         price_min.grid(row=12 +space,column=8, pady= 17)
                         #Boton seleccionar
-                        seleccionar = ctk.CTkButton(ventana2, text = "Seleccionar", command = paquetes, width = 20, font = ("Berlin Sans FB",16))
+                        datos1.append([inicio,fin, dia, hora_vuelos[t][0], hora_vuelos[t][1], precios_vuelos1[t][0], precios_vuelos1[t][1], precios_vuelos1[t][2]])
+
+                        seleccionar = ctk.CTkButton(ventana2, text="Seleccionar", command=lambda t=t: registrar_or_check(datos1[t]), width=20, font=("Berlin Sans FB", 16))
                         seleccionar.grid(row=12 +space,column=10, pady= 17)
                         space += 1
-                        
+
+                    #Boton continuar
+                    volver = ctk.CTkButton(ventana2, text = "Volver", command = devolverse, font = ("Garamound", 20), height = 40, width = 150)
+                    volver.place(relx = 0.44, rely = 0.8)
+                                        
 
     #Container principal
     frame = tkinter.Frame(width = 740, height = 500, bg = "white", highlightbackground = "#0B99B9", highlightcolor = "#0B99B9", highlightthickness = 2)
@@ -339,5 +263,3 @@ def datos():
     buscar.place(relx=0.5,rely=0.76, anchor=tkinter.CENTER)
 
     ventana.mainloop()
-
-datos()
